@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VisuaLens | Photography Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0f0f0f;color:#fff}
+header{padding:28px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(15,15,15,.92);backdrop-filter:blur(10px);z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:28px;font-weight:900}
+.logo span{color:#f59e0b}
+header a{color:#ccc;text-decoration:none;font-size:14px}
+.hero{text-align:center;padding:60px 5% 30px}
+.hero h1{font-family:'Playfair Display',serif;font-size:52px;line-height:1.05}
+.hero h1 em{color:#f59e0b;font-style:italic}
+.hero p{color:#aaa;margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+.filters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:28px 5% 10px}
+.filters button{padding:10px 22px;border:1px solid #333;background:#1a1a1a;color:#ccc;border-radius:100px;cursor:pointer;font-weight:600;font-size:14px;transition:.3s}
+.filters button:hover{border-color:#f59e0b;color:#fff}
+.filters button.active{background:#f59e0b;color:#000;border-color:#f59e0b}
+.gallery{columns:3 280px;column-gap:16px;padding:20px 5% 60px}
+.card{break-inside:avoid;margin-bottom:16px;border-radius:16px;overflow:hidden;position:relative;cursor:pointer;background:#1a1a1a}
+.card img{width:100%;display:block;transition:transform .5s ease}
+.card:hover img{transform:scale(1.08)}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 55%);opacity:0;transition:.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.card:hover .overlay{opacity:1}
+.overlay h3{font-size:18px}
+.overlay p{font-size:13px;color:#f59e0b;margin-top:4px;font-weight:600}
+.overlay span{font-size:12px;color:#ccc;margin-top:2px}
+.card.hide{display:none}
+.count{text-align:center;color:#888;font-size:13px;padding-bottom:10px}
+/* Lightbox */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90%;max-height:75vh;border-radius:12px;object-fit:contain}
+.lightbox h3{margin-top:16px;font-size:22px}
+.lightbox p{color:#f59e0b;font-size:14px;margin-top:6px}
+.close{position:absolute;top:20px;right:28px;font-size:38px;cursor:pointer;color:#fff}
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:#f59e0b;color:#000;border:none;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer}
+.prev{left:18px}.next{right:18px}
+footer{text-align:center;padding:28px;color:#777;font-size:13px;border-top:1px solid #222}
+@media(max-width:600px){.hero h1{font-size:36px}header{padding:18px 5%}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">Visua<span>Lens</span> 📸</div>
+<a href="#">By Kaviya B</a>
+</header>
+
+<section class="hero">
+<h1>Stories Told Through<br><em>The Lens.</em></h1>
+<p>A curated photography portfolio. Explore moments from nature, portraits, streets & cities. Click any photo to view full-screen.</p>
+</section>
+
+<div class="filters">
+<button class="active" onclick="filterGallery('all',this)">All Photos</button>
+<button onclick="filterGallery('nature',this)">🌿 Nature</button>
+<button onclick="filterGallery('portrait',this)">👤 Portrait</button>
+<button onclick="filterGallery('urban',this)">🏙️ Urban</button>
+<button onclick="filterGallery('travel',this)">✈️ Travel</button>
+</div>
+<p class="count" id="count">Showing 12 Photos</p>
+
+<div class="gallery" id="gallery">
+<!-- NATURE -->
+<div class="card" data-cat="nature"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Mountain"><div class="overlay"><h3>Mountain Silence</h3><p>NATURE</p><span>Swiss Alps • 2025</span></div></div>
+<div class="card" data-cat="nature"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&q=80" alt="Foggy Hills"><div class="overlay"><h3>Foggy Mornings</h3><p>NATURE</p><span>Ooty • 2025</span></div></div>
+<div class="card" data-cat="nature"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80" alt="Forest"><div class="overlay"><h3>Into The Forest</h3><p>NATURE</p><span>Kerala • 2024</span></div></div>
+<!-- PORTRAIT -->
+<div class="card" data-cat="portrait"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="Portrait Girl"><div class="overlay"><h3>Her Smile</h3><p>PORTRAIT</p><span>Chennai • 2025</span></div></div>
+<div class="card" data-cat="portrait"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Portrait Man"><div class="overlay"><h3>Portrait of Calm</h3><p>PORTRAIT</p><span>Mumbai • 2024</span></div></div>
+<div class="card" data-cat="portrait"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80" alt="Portrait Woman"><div class="overlay"><h3>Golden Hour</h3><p>PORTRAIT</p><span>Goa • 2025</span></div></div>
+<!-- URBAN -->
+<div class="card" data-cat="urban"><img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&q=80" alt="City Street"><div class="overlay"><h3>City Lights</h3><p>URBAN</p><span>New York • 2024</span></div></div>
+<div class="card" data-cat="urban"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80" alt="City Skyline"><div class="overlay"><h3>Skyline Dreams</h3><p>URBAN</p><span>Chicago • 2025</span></div></div>
+<div class="card" data-cat="urban"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&q=80" alt="Urban Street"><div class="overlay"><h3>Street Stories</h3><p>URBAN</p><span>Delhi • 2024</span></div></div>
+<!-- TRAVEL -->
+<div class="card" data-cat="travel"><img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=600&q=80" alt="Travel"><div class="overlay"><h3>Wanderlust</h3><p>TRAVEL</p><span>Manali • 2025</span></div></div>
+<div class="card" data-cat="travel"><img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80" alt="Traveller"><div class="overlay"><h3>The Journey</h3><p>TRAVEL</p><span>Hampi • 2024</span></div></div>
+<div class="card" data-cat="travel"><img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80" alt="Road Trip"><div class="overlay"><h3>Road Trip</h3><p>TRAVEL</p><span>Ladakh • 2025</span></div></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+<span class="close" onclick="closeLightbox()">×</span>
+<button class="prev" onclick="changePhoto(-1)">‹</button>
+<img id="lightImg" src="">
+<h3 id="lightTitle"></h3>
+<p id="lightCat"></p>
+<button class="next" onclick="changePhoto(1)">›</button>
+</div>
+
+<footer>Made with ❤️ by Kaviya B | VisuaLens - Photography Portfolio | Pynexia Tech Project</footer>
+
+<script>
+let cards = document.querySelectorAll('.card');
+let visibleCards = [...cards];
+let currentIndex = 0;
+
+function filterGallery(cat, btn){
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  visibleCards = [];
+  cards.forEach(c=>{
+    if(cat==='all' || c.dataset.cat===cat){ c.classList.remove('hide'); visibleCards.push(c); }
+    else{ c.classList.add('hide'); }
+  });
+  document.getElementById('count').textContent = `Showing ${visibleCards.length} Photos`;
+}
+
+cards.forEach((card, i)=>{
+  card.addEventListener('click', ()=>{
+    visibleCards = [...document.querySelectorAll('.card:not(.hide)')];
+    currentIndex = visibleCards.indexOf(card);
+    openLightbox();
+  });
+});
+
+function openLightbox(){
+  let card = visibleCards[currentIndex];
+  document.getElementById('lightImg').src = card.querySelector('img').src;
+  document.getElementById('lightTitle').textContent = card.querySelector('h3').textContent;
+  document.getElementById('lightCat').textContent = card.querySelector('p').textContent + ' • ' + card.querySelector('span').textContent;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
+function changePhoto(dir){
+  currentIndex = (currentIndex + dir + visibleCards.length) % visibleCards.length;
+  openLightbox();
+}
+document.getElementById('lightbox').addEventListener('click', e=>{ if(e.target.id==='lightbox') closeLightbox(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); if(e.key==='ArrowRight') changePhoto(1); if(e.key==='ArrowLeft') changePhoto(-1); });
+</script>
+</body>
+</html>
